@@ -23,6 +23,6 @@ For collaboration:
 9. Save, commit, and push!
 10. Pull! Did you get a copy of your partner's file? How many total files do you have now?
 
-Owner: Name 1
+Owner: Shaylee-Ann Billaber-Ferrer
 
 Collaborator: Name 2
