@@ -42,7 +42,7 @@ API stands for Application Programming Interface. Here is the idea:
 [Request your own](https://api.census.gov/data/key_signup.html) or use Amber's (below).
 
 ```{r Define API Key, message=FALSE}
-census_api_key("")
+census_api_key("bb013876d0aade18a24b70214f843c5095d1458d")
 ```
 
 ## Import Variables
@@ -73,7 +73,7 @@ oahu_poverty <- get_acs(
   variables = c(percent_poverty = "DP03_0119P"),
   state = "HI",
   county = "Honolulu",
-  geometry = TRUE,
+  geometry = TRUE, #gives the area of tract (~#=# across areas)
   output = "wide",
   year = 2024) %>% 
   dplyr::filter(GEOID != "15003981200" & GEOID !="15003981900") # filters out tract in NW Hawaiian Islands that makes map very small and Mamala Bay Golf Course that has %100 percent of families living below the poverty line(??)
@@ -108,10 +108,10 @@ Now let's look at family poverty in Honolulu County over time
 ## Try an example of your own
 
 ```{r}
-# get the data (looking at ____)
-NAME <- get_acs(
+# get the data (looking at computer & internet access)
+compintacc <- get_acs(
   geography = "tract",
-  variables = c(NAME = "DP02_0158"),
+  variables = c(computer_access = "DP02_0152"),
   state = "HI",
   county = "Honolulu",
   geometry = TRUE,
@@ -120,16 +120,16 @@ NAME <- get_acs(
   dplyr::filter(GEOID != "15003981200" & GEOID !="15003981900")
 
 # map it
-oahu_unemployment_map <- ggplot(NAME) +
+oahu_computer_map <- ggplot(compintacc) +
   geom_sf_interactive(
     aes(
-      fill = percent_unemploymentE,
-      tooltip = paste(NAME, ": ", percent_unemploymentE, "%"),
+      fill = computer_accessE,
+      tooltip = paste(NAME, ": ", computer_accessE, "%"),
       data_id = NAME)) +
   scale_fill_viridis_c(option = "plasma") +
   theme_void() 
 
-girafe(ggobj = oahu_unemployment_map, width = 700, height = 400)
+girafe(ggobj = oahu_computer_map, width = 700, height = 400)
 
 ```
 
