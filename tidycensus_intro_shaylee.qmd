@@ -10,9 +10,9 @@ toc: true
 ## Install and Load Packages
 
 ```{r Libraries}
-# install.packages("tidycensus")
-# install.packages("reactable")
-# install.packages("ggpubr")
+#install.packages("tidycensus")
+#install.packages("reactable")
+#install.packages("ggpubr")
  
 library(tidycensus)  # star of the show, what we will use to import data
 library(tidyverse) # you know her
@@ -41,7 +41,7 @@ API stands for Application Programming Interface. Here is the idea:
 [Request your own](https://api.census.gov/data/key_signup.html) or use Amber's (below).
 
 ```{r Define API Key, message=FALSE}
-census_api_key("")
+census_api_key("e6d6c3bee994a16030313d5e90c2d0f180faafdb")
 ```
 
 ## Import Variables
@@ -68,11 +68,11 @@ Let's investigate family poverty on Oahu at the census tract level.
 
 ```{r Import Data}
 oahu_poverty <- get_acs(
-  geography = "tract",
+  geography = "tract", #could put county or state
   variables = c(percent_poverty = "DP03_0119P"),
   state = "HI",
   county = "Honolulu",
-  geometry = TRUE,
+  geometry = TRUE, #gives you stuff thats mappable
   output = "wide",
   year = 2024) %>% 
   dplyr::filter(GEOID != "15003981200" & GEOID !="15003981900") # filters out tract in NW Hawaiian Islands that makes map very small and Mamala Bay Golf Course that has %100 percent of families living below the poverty line(??)
@@ -108,9 +108,9 @@ Now let's look at family poverty in Honolulu County over time
 
 ```{r}
 # get the data (looking at ____)
-NAME <- get_acs(
+computer_access <- get_acs(
   geography = "tract",
-  variables = c(NAME = "DP02_0158"),
+  variables = c(computer = "DP02_0152"),
   state = "HI",
   county = "Honolulu",
   geometry = TRUE,
@@ -119,16 +119,20 @@ NAME <- get_acs(
   dplyr::filter(GEOID != "15003981200" & GEOID !="15003981900")
 
 # map it
-oahu_unemployment_map <- ggplot(NAME) +
+oahu_unemployment_map <- ggplot(computer_access) +
   geom_sf_interactive(
     aes(
-      fill = percent_unemploymentE,
-      tooltip = paste(NAME, ": ", percent_unemploymentE, "%"),
+      fill = computerE,
+      tooltip = paste(NAME, ": ", computerE, "%"),
       data_id = NAME)) +
   scale_fill_viridis_c(option = "plasma") +
   theme_void() 
 
 girafe(ggobj = oahu_unemployment_map, width = 700, height = 400)
+
+```
+
+```{r}
 
 ```
 
