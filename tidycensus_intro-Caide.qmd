@@ -42,7 +42,7 @@ API stands for Application Programming Interface. Here is the idea:
 [Request your own](https://api.census.gov/data/key_signup.html) or use Amber's (below).
 
 ```{r Define API Key, message=FALSE}
-census_api_key("bb013876d0aade18a24b70214f843c5095d1458d")
+#census_api_key("")
 ```
 
 ## Import Variables
@@ -120,7 +120,7 @@ compintacc <- get_acs(
   dplyr::filter(GEOID != "15003981200" & GEOID !="15003981900")
 
 # map it
-oahu_computer_map <- ggplot(compintacc) +
+oahu_education_map <- ggplot(compintacc) +
   geom_sf_interactive(
     aes(
       fill = computer_accessE,
@@ -132,6 +132,34 @@ oahu_computer_map <- ggplot(compintacc) +
 girafe(ggobj = oahu_computer_map, width = 700, height = 400)
 #WEE
 
+```
+
+## Wednesday Warmup
+
+```{r}
+# get the data (looking at computer & internet access)
+employment <- get_acs(
+  geography = "tract",
+  variables = c(employment = "DP03_0042P"),
+  state = "HI",
+  county = "Honolulu",
+  geometry = TRUE,
+  output = "wide",
+  year = 2024) %>% 
+  dplyr::filter(GEOID != "15003981200" & GEOID !="15003981900")
+
+# map it
+oahu_employment_map <- ggplot(employment) +
+  geom_sf_interactive(
+    aes(
+      fill = employmentE,
+      tooltip = paste(NAME, ": ", employmentE, "%"),
+      data_id = NAME)) +
+  scale_fill_viridis_c(option = "plasma") +
+  theme_void() 
+
+girafe(ggobj = oahu_employment_map, width = 700, height = 400)
+#WEE
 ```
 
 ## Back to Exploring Poverty...
@@ -202,7 +230,7 @@ oahu_family_poverty_college_education <- get_acs(
 ```{r Scatter Plot, warning=FALSE, message=FALSE}
 ggplot(oahu_family_poverty_college_education, aes(x = percent_povertyE,y = percent_BAE)) +
   geom_point() +
-  geom_smooth() + # adds a regression line (LOESS)
+  geom_smooth(method = 'lm') + # adds a regression line (LOESS)
   stat_cor() + # prints R and p
   theme_minimal() + 
   labs(title = "Comparing Rates of Higher Education to Poverty, Honolulu County",
@@ -260,6 +288,24 @@ Investigating (insert variable here) on Oahu at the census tract level.
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 
+years <- 2014:2024 # specify years
+names(years) <- years
+
+oahu_employment_2014_2024 <- map_dfr(years, ~{
+  get_acs(
+    geography = "county",
+    variables = c(percent_poverty = "DP03_0042P"),
+    state = "HI",
+    county = "Honolulu",
+    year = .x,
+    survey = "acs5")}, .id = "year")
+
+ggplot(oahu_employment_2014_2024, aes(x = year, y = estimate, group = 1)) + 
+  geom_line() + 
+  geom_point() +
+  labs(title = "Honolulu County Employment Rate (ACS Rolling 5-year estimates)",
+       x = "ACS Release Year (5-year window)",
+       y = "Percent Employment in Hawaii")
 
 ```
 
