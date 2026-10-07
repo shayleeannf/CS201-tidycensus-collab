@@ -15,7 +15,7 @@ toc: true
 #install.packages("ggpubr")
  
 library(tidycensus)  # star of the show, what we will use to import data
-library(tidyverse) # you know her
+library(tidyverse) # you know her yup
 library(reactable) # makes nice looking, interactive tables
 library(ggiraph) # makes interactive graphs and maps
 library(ggpubr) # does some statistics and prints the results on our graphs
