@@ -41,7 +41,7 @@ API stands for Application Programming Interface. Here is the idea:
 [Request your own](https://api.census.gov/data/key_signup.html) or use Amber's (below).
 
 ```{r Define API Key, message=FALSE}
-census_api_key("e6d6c3bee994a16030313d5e90c2d0f180faafdb")
+#census_api_key("")
 ```
 
 ## Import Variables
@@ -133,6 +133,33 @@ girafe(ggobj = oahu_unemployment_map, width = 700, height = 400)
 ```
 
 ```{r}
+# Wednesday Warm Up
+
+#Making a map that shows percentage of married couples per tract
+married_couples <- get_acs(
+  geography = "tract",
+  variables = c(married = "DP02_0002P"),
+  state = "HI",
+  county = "Honolulu",
+  geometry = TRUE,
+  output = "wide",
+  year = 2024) %>% 
+  dplyr::filter(GEOID != "15003981200" & GEOID !="15003981900")
+
+# map it
+married_couples_map <- ggplot(married_couples) +
+  geom_sf_interactive(
+    aes(
+      fill = marriedE,
+      tooltip = paste(NAME, ": ", marriedE, "%"),
+      data_id = NAME)) +
+  scale_fill_viridis_c(option = "plasma") +
+  theme_void() 
+
+girafe(ggobj = married_couples_map, width = 700, height = 400)
+```
+
+```{r}
 
 ```
 
@@ -161,6 +188,8 @@ ggplot(oahu_poverty_2014_2024, aes(x = year, y = estimate, group = 1)) +
   labs(title = "Honolulu County Poverty Rate (ACS Rolling 5-year estimates)",
     x = "ACS Release Year (5-year window)",
     y = "Percent in Poverty")
+
+#you can do 1, 3, or 5 years
 ```
 
 Reminder: Each point is a rolling window of 5 years of survey data. So, for example, the "2024" ACS 5-year dataset covers 2019–2024.
@@ -204,7 +233,7 @@ oahu_family_poverty_college_education <- get_acs(
 ```{r Scatter Plot, warning=FALSE, message=FALSE}
 ggplot(oahu_family_poverty_college_education, aes(x = percent_povertyE,y = percent_BAE)) +
   geom_point() +
-  geom_smooth() + # adds a regression line (LOESS)
+  geom_smooth(method = 'lm') + # adds a regression line (LOESS) method gives you linear line
   stat_cor() + # prints R and p
   theme_minimal() + 
   labs(title = "Comparing Rates of Higher Education to Poverty, Honolulu County",

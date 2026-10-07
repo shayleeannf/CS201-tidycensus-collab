@@ -244,21 +244,25 @@ Investigating (insert variable here) on Oahu at the census tract level.
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 
-
+# Looking at Employment (DP03_0001P)
 ```
 
 ### Mapping
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 
-
+# Mapping Employment rate in Oahu
+#Caide starts
+#Shaylee maps
 ```
 
 ### Time Series
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 
-
+# Employment over the years
+#Shaylee starts
+#Caide maps
 ```
 
 ### Scatter Plot
@@ -267,7 +271,8 @@ Exploring the relationship between (insert variable here) and (insert variable h
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 
-
+# Employment vs. School Enrolment (DP02_0058P)
+#Together in class friday
 ```
 
 ### Describe what you found
