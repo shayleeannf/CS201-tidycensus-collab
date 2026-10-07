@@ -130,6 +130,7 @@ oahu_computer_map <- ggplot(compintacc) +
   theme_void() 
 
 girafe(ggobj = oahu_computer_map, width = 700, height = 400)
+#WEE
 
 ```
 
