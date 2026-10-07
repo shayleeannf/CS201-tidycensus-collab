@@ -252,7 +252,7 @@ This could be a useful reference: <https://walker-data.com/census-r/index.html>
 Replace family poverty with another variable and:
 
 1.  Map it
-2.  Show the variable over time
+2.  Show the variable over time2
 3.  Show the variable's relationship with education (or another variable of your choosing)
 4.  Describe what you found
 
