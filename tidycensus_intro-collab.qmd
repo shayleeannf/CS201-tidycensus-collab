@@ -246,15 +246,15 @@ Investigating (insert variable here) on Oahu at the census tract level.
 
 # Looking at Employment (DP03_0001P)
 
-oahu_hw <- get_acs(
+oahu_employment <- get_acs(
   geography = "tract",
-  variables = c(percent_poverty = "DP03_0042P"),
+  variables = c(employment_estimate = "DP03_0042P"),
   state = "HI",
   county = "Honolulu",
   geometry = TRUE, #gives the area of tract (~#=# across areas)
   output = "wide",
   year = 2024) %>% 
-  dplyr::filter(GEOID != "15003981200" & GEOID !="15003981900")
+  dplyr::filter(GEOID != "15003981200" & GEOID !="15003981900") 
 ```
 
 ### Mapping
