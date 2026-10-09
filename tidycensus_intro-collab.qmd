@@ -336,3 +336,5 @@ ggplot(oahu_employment_school_enrollment, aes(x = percent_BAE, y = percent_emplo
 ```
 
 ### Describe what you found
+
+All the data is in 5 year rolling estimates so the data isn't specific to that year but a combination of the years prior. From the map data it's easier to see the tracts that don't have data and also the tracts that have 0% employment. While it doesn't make sense for a tract to have 0% employment, that is the data that was proovided for us. From the time series graph, a dip is shown from 2019 to 2024 meaning less people were employed. While the correlation coefficient is very low (0.054), it's still positive, and more people who are employed have a BA.
