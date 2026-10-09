@@ -347,7 +347,7 @@ Exploring the relationship between (insert variable here) and (insert variable h
 oahu_employment_school_enrollment <- get_acs(
   geography = "tract",
   variables = c(percent_employment = "DP03_0004P",
-                percent_BA = "DP02_0068P"),
+                percent_health_insurance = "DP03_0118P"),
   state = "HI",
   county = "Honolulu",
   geometry = TRUE,
@@ -355,17 +355,20 @@ oahu_employment_school_enrollment <- get_acs(
   year = 2024) %>% 
   dplyr::filter(GEOID != "15003981200" & GEOID !="15003981900")
 
-ggplot(oahu_employment_school_enrollment, aes(x = percent_employmentE,y = percent_BAE)) +
+
+ggplot(oahu_employment_school_enrollment, aes(x = percent_health_insuranceE , y =  percent_employmentE)) +
   geom_point() +
   geom_smooth(method = 'lm') + # adds a regression line (LOESS)
   stat_cor() + # prints R and p
   theme_minimal() + 
-  labs(title = "Comparing Rates of Employment to School Enrollment, Honolulu County",
+  labs(title = "Comparing Rates of Employment to Health Insurance Coverage, Honolulu County",
        subtitle = "ACS 5-year, 2024 release",
-       x = "# of Employment",
-       y = "Percent of School Enrollment",
+       x = "% Employment",
+       y = "% Health Insurance",
        caption = "Shaded area represents margin of error around the estimate")
 
 ```
 
 ### Describe what you found
+
+Based on the graphs of data, as employment rates rises, so does BA attainment. From this, we infer that more people with a BA are more likely to be employed. Additionally, between the start and end of the COVID lock down, there was a sharp decline and incline in employment across the state.
