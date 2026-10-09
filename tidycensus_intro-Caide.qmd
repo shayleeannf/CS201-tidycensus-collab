@@ -276,7 +276,7 @@ Investigating (insert variable here) on Oahu at the census tract level.
 
 oahu_hw <- get_acs(
   geography = "tract",
-  variables = c(percent_poverty = "DP03_0042P"),
+  variables = c(percent_poverty = "DP03_0004P"),
   state = "HI",
   county = "Honolulu",
   geometry = TRUE, #gives the area of tract (~#=# across areas)
@@ -291,7 +291,7 @@ oahu_hw <- get_acs(
 
 employment <- get_acs(
   geography = "tract",
-  variables = c(employment_estimate = "DP03_0042P"),
+  variables = c(employment_estimate = "DP03_0004P"),
   state = "HI",
   county = "Honolulu",
   geometry = TRUE, #gives the area of tract (~#=# across areas)
@@ -323,7 +323,7 @@ names(years) <- years
 oahu_employment_2014_2024 <- map_dfr(years, ~{
   get_acs(
     geography = "county",
-    variables = c(percent_employment = "DP03_0042P"),
+    variables = c(percent_employment = "DP03_0004P"),
     state = "HI",
     county = "Honolulu",
     year = .x,
@@ -346,8 +346,8 @@ Exploring the relationship between (insert variable here) and (insert variable h
 
 oahu_employment_school_enrollment <- get_acs(
   geography = "tract",
-  variables = c(percent_employment = "DP03_0042P",
-                percent_BA = "DP02_0058P"),
+  variables = c(percent_employment = "DP03_0004P",
+                percent_BA = "DP02_0068P"),
   state = "HI",
   county = "Honolulu",
   geometry = TRUE,
@@ -362,7 +362,7 @@ ggplot(oahu_employment_school_enrollment, aes(x = percent_employmentE,y = percen
   theme_minimal() + 
   labs(title = "Comparing Rates of Employment to School Enrollment, Honolulu County",
        subtitle = "ACS 5-year, 2024 release",
-       x = "Percent of Employment",
+       x = "# of Employment",
        y = "Percent of School Enrollment",
        caption = "Shaded area represents margin of error around the estimate")
 

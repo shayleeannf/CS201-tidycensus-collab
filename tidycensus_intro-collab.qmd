@@ -244,12 +244,12 @@ Investigating (insert variable here) on Oahu at the census tract level.
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 
-# Looking at Employment (DP03_0001P)
+# Looking at Employment (DP03_0004P)
 
 # Mapping Data
 oahu_employment <- get_acs(
   geography = "tract",
-  variables = c(employment_estimate = "DP03_0001"),
+  variables = c(employment_estimate = "DP03_0004P"),
   state = "HI",
   county = "Honolulu",
   geometry = TRUE, #gives the area of tract (~#=# across areas)
@@ -263,11 +263,23 @@ names(years) <- years
 oahu_employment_2014_2024 <- map_dfr(years, ~{
   get_acs(
     geography = "county",
-    variables = c(employment = "DP03_0001"),
+    variables = c(employment = "DP03_0004P"),
     state = "HI",
     county = "Honolulu",
     year = .x,
     survey = "acs5")}, .id = "year")
+
+#Scatter plot Data
+oahu_employment_school_enrollment <- get_acs(
+  geography = "tract",
+  variables = c(percent_employment = "DP03_0004P",
+                percent_BA = "DP02_0068P"),
+  state = "HI",
+  county = "Honolulu",
+  geometry = TRUE,
+  output = "wide",
+  year = 2024) %>% 
+  dplyr::filter(GEOID != "15003981200" & GEOID !="15003981900")
 ```
 
 ### Mapping
@@ -278,6 +290,26 @@ oahu_employment_2014_2024 <- map_dfr(years, ~{
 #Caide starts
 #Shaylee maps
 
+employment <- get_acs(
+  geography = "tract",
+  variables = c(employment_estimate = "DP03_0004P"),
+  state = "HI",
+  county = "Honolulu",
+  geometry = TRUE, #gives the area of tract (~#=# across areas)
+  output = "wide",
+  year = 2024) %>% 
+  dplyr::filter(GEOID != "15003981200" & GEOID !="15003981900") 
+
+oahu_employment_map <- ggplot(employment) +
+  geom_sf_interactive(
+    aes(
+      fill = employment_estimateE,
+      tooltip = paste(NAME, ": ", employment_estimateE, "%"),
+      data_id = NAME)) +
+  scale_fill_viridis_c(option = "plasma") +
+  theme_void() 
+
+girafe(ggobj = oahu_employment_map, width = 700, height = 400)
 ```
 
 ### Time Series
