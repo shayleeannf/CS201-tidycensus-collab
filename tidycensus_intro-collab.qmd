@@ -264,6 +264,16 @@ oahu_employment <- get_acs(
 # Mapping Employment rate in Oahu
 #Caide starts
 #Shaylee maps
+
+employment <- get_acs(
+  geography = "tract",
+  variables = c(employment_estimate = "DP03_0042P"),
+  state = "HI",
+  county = "Honolulu",
+  geometry = TRUE, #gives the area of tract (~#=# across areas)
+  output = "wide",
+  year = 2024) %>% 
+  dplyr::filter(GEOID != "15003981200" & GEOID !="15003981900") 
 ```
 
 ### Time Series
