@@ -287,20 +287,8 @@ oahu_employment_school_enrollment <- get_acs(
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 
 # Mapping Employment rate in Oahu
-#Caide starts
-#Shaylee maps
 
-employment <- get_acs(
-  geography = "tract",
-  variables = c(employment_estimate = "DP03_0004P"),
-  state = "HI",
-  county = "Honolulu",
-  geometry = TRUE, #gives the area of tract (~#=# across areas)
-  output = "wide",
-  year = 2024) %>% 
-  dplyr::filter(GEOID != "15003981200" & GEOID !="15003981900") 
-
-oahu_employment_map <- ggplot(employment) +
+oahu_employment_map <- ggplot(oahu_employment) +
   geom_sf_interactive(
     aes(
       fill = employment_estimateE,
@@ -317,15 +305,13 @@ girafe(ggobj = oahu_employment_map, width = 700, height = 400)
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 
 # Employment over the years
-#Shaylee starts
-#Caide maps
 
 ggplot(oahu_employment_2014_2024, aes(x = year, y = estimate, group = 1)) + 
   geom_line() + 
   geom_point() +
   labs(title = "Honolulu County Employment (ACS Rolling 5-year estimates)",
        x = "ACS Release Year (5-year window)",
-       y = "Total People Employed")
+       y = "Percent People Employed")
 ```
 
 ### Scatter Plot
@@ -334,8 +320,18 @@ Exploring the relationship between (insert variable here) and (insert variable h
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 
-# Employment vs. School Enrolment (DP02_0058P)
-#Together in class friday
+# Employment vs. BA Degree (DP02_0058P)
+
+ggplot(oahu_employment_school_enrollment, aes(x = percent_BAE, y = percent_employmentE)) +
+  geom_point() +
+  geom_smooth(method = 'lm') + # adds a regression line (LOESS) method gives you linear line
+  stat_cor() + # prints R and p
+  theme_minimal() + 
+  labs(title = "Comparing Rates of Employment to Bachelor Degree Holders Honolulu County",
+       subtitle = "ACS 5-year, 2024 release",
+       x = "Percent of People with a BA or higher",
+       y = "Percent of  People Employed in Labor Force",
+       caption = "Shaded area represents margin of error around the estimate")
 ```
 
 ### Describe what you found
