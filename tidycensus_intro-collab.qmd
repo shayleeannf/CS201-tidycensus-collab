@@ -322,16 +322,17 @@ Exploring the relationship between (insert variable here) and (insert variable h
 
 # Employment vs. BA Degree (DP02_0058P)
 
-ggplot(oahu_employment_school_enrollment, aes(x = percent_BAE, y = percent_employmentE)) +
+ggplot(oahu_employment_school_enrollment, aes(x = percent_health_insuranceE , y =  percent_employmentE)) +
   geom_point() +
-  geom_smooth(method = 'lm') + # adds a regression line (LOESS) method gives you linear line
+  geom_smooth(method = 'lm') + # adds a regression line (LOESS)
   stat_cor() + # prints R and p
   theme_minimal() + 
-  labs(title = "Comparing Rates of Employment to Bachelor Degree Holders Honolulu County",
+  labs(title = "Comparing Rates of Employment to Health Insurance Coverage, Honolulu County",
        subtitle = "ACS 5-year, 2024 release",
-       x = "Percent of People with a BA or higher",
-       y = "Percent of  People Employed in Labor Force",
+       x = "% Employment",
+       y = "% Health Insurance",
        caption = "Shaded area represents margin of error around the estimate")
+
 ```
 
 ### Describe what you found
